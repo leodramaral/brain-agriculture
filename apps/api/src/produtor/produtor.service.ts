@@ -1,4 +1,4 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Produtor } from '../entities/produtor.entity';
@@ -22,5 +22,25 @@ export class ProdutorService {
 
     const produtor = this.produtorRepository.create(createProdutorDto);
     return await this.produtorRepository.save(produtor);
+  }
+
+  async findAll(): Promise<Produtor[]> {
+    return await this.produtorRepository.find({
+      relations: ['propriedades'],
+      order: { created_at: 'DESC' }
+    });
+  }
+
+  async findOne(id: string): Promise<Produtor> {
+    const produtor = await this.produtorRepository.findOne({
+      where: { id },
+      relations: ['propriedades']
+    });
+
+    if (!produtor) {
+      throw new NotFoundException('Produtor not found');
+    }
+
+    return produtor;
   }
 }
