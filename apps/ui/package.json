@@ -1,0 +1,13 @@
+{
+  "name": "@brain-agriculture/ui",
+  "version": "0.0.1",
+  "description": "UI para Brain Agriculture",
+  "private": true,
+  "scripts": {
+    "dev": "echo 'UI em desenvolvimento - aguarde implementação'",
+    "build": "echo 'UI build - aguarde implementação'",
+    "start": "echo 'UI start - aguarde implementação'"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

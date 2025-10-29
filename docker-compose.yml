@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: brain-agriculture-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: brain_agriculture
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - brain-agriculture-network
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: brain-agriculture-api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: brain_agriculture
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+    volumes:
+      - ./apps/api:/app
+      - /app/node_modules
+    networks:
+      - brain-agriculture-network
+
+volumes:
+  postgres_data:
+
+networks:
+  brain-agriculture-network:
+    driver: bridge

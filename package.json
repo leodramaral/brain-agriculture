@@ -1,0 +1,25 @@
+{
+  "name": "brain-agriculture-monorepo",
+  "version": "1.0.0",
+  "description": "Monorepo para projeto Brain Agriculture",
+  "private": true,
+  "workspaces": [
+    "apps/api",
+    "apps/ui"
+  ],
+  "scripts": {
+    "dev:api": "npm run dev --workspace=apps/api",
+    "dev:ui": "npm run dev --workspace=apps/ui",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
