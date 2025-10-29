@@ -12,7 +12,11 @@
     "dev:ui": "npm run dev --workspace=apps/ui",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
-    "docker:logs": "docker compose logs -f"
+    "docker:logs": "docker compose logs -f",
+    "api:dev": "npm run dev --workspace=apps/api",
+    "api:migration:generate": "npm run migration:generate --workspace=apps/api",
+    "api:migration:run": "npm run migration:run --workspace=apps/api",
+    "api:migration:revert": "npm run migration:revert --workspace=apps/api"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
