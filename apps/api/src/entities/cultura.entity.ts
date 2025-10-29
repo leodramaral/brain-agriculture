@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { PropriedadeCultura } from './propriedade-cultura.entity';
 
-@Entity('culturas')
+@Entity('cultura')
 export class Cultura {
   @PrimaryGeneratedColumn('uuid')
   id: string;

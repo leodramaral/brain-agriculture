@@ -8,16 +8,16 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { ProdutorRural } from './produtor-rural.entity';
+import { Produtor } from './produtor.entity';
 import { PropriedadeCultura } from './propriedade-cultura.entity';
 
-@Entity('propriedades_rurais')
-export class PropriedadeRural {
+@Entity('propriedade')
+export class Propriedade {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'varchar', length: 255, name: 'farm_name' })
-  farm_name: string;
+  @Column({ type: 'varchar', length: 255, name: 'name' })
+  name: string;
 
   @Column({ type: 'varchar', length: 100, name: 'city' })
   city: string;
@@ -40,15 +40,15 @@ export class PropriedadeRural {
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at: Date;
 
-  @Column({ type: 'uuid', name: 'producer_id' })
-  producer_id: string;
+  @Column({ type: 'uuid', name: 'produtor_id' })
+  produtor_id: string;
 
-  @ManyToOne(() => ProdutorRural, (produtor) => produtor.propriedade, {
+  @ManyToOne(() => Produtor, (produtor) => produtor.propriedades, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'producer_id' })
-  producer: ProdutorRural;
+  @JoinColumn({ name: 'produtor_id' })
+  produtor: Produtor;
 
   @OneToMany(() => PropriedadeCultura, (propriedadeCultura) => propriedadeCultura.propriedade)
-  culturas: PropriedadeCultura[];
+  propriedade_cultura: PropriedadeCultura[];
 }

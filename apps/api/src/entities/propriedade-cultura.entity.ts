@@ -7,11 +7,11 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { PropriedadeRural } from './propriedade-rural.entity';
+import { Propriedade } from './propriedade.entity';
 import { Cultura } from './cultura.entity';
 import { Safra } from './safra.entity';
 
-@Entity('propriedades_culturas')
+@Entity('propriedade_cultura')
 export class PropriedadeCultura {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -25,30 +25,30 @@ export class PropriedadeCultura {
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at: Date;
 
-  @Column({ type: 'uuid', name: 'property_id' })
-  property_id: string;
+  @Column({ type: 'uuid', name: 'propriedade_id' })
+  propriedade_id: string;
 
-  @Column({ type: 'uuid', name: 'crop_id' })
-  crop_id: string;
+  @Column({ type: 'uuid', name: 'cultura_id' })
+  cultura_id: string;
 
-  @Column({ type: 'uuid', name: 'harvest_id' })
-  harvest_id: string;
+  @Column({ type: 'uuid', name: 'safra_id' })
+  safra_id: string;
 
-  @ManyToOne(() => PropriedadeRural, (propriedade) => propriedade.culturas, {
+  @ManyToOne(() => Propriedade, (propriedade) => propriedade.propriedade_cultura, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'property_id' })
-  propriedade: PropriedadeRural;
+  @JoinColumn({ name: 'propriedade_id' })
+  propriedade: Propriedade;
 
   @ManyToOne(() => Cultura, (cultura) => cultura.propriedade_cultura, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'crop_id' })
+  @JoinColumn({ name: 'cultura_id' })
   cultura: Cultura;
 
   @ManyToOne(() => Safra, (safra) => safra.propriedade_cultura, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'harvest_id' })
+  @JoinColumn({ name: 'safra_id' })
   safra: Safra;
 }

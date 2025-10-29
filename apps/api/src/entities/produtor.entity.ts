@@ -6,10 +6,10 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { PropriedadeRural } from './propriedade-rural.entity';
+import { Propriedade } from './propriedade.entity';
 
-@Entity('produtores_rurais')
-export class ProdutorRural {
+@Entity('produtor')
+export class Produtor {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -25,6 +25,6 @@ export class ProdutorRural {
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at: Date;
 
-  @OneToMany(() => PropriedadeRural, (propriedade) => propriedade.producer)
-  propriedade: PropriedadeRural[];
+  @OneToMany(() => Propriedade, (propriedade) => propriedade.produtor)
+  propriedades: Propriedade[];
 }
