@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProdutorModule } from './produtor/produtor.module';
+import { PropriedadeModule } from './propriedade/propriedade.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ProdutorModule } from './produtor/produtor.module';
       logging: process.env.NODE_ENV === 'development',
     }),
     ProdutorModule,
+    PropriedadeModule,
   ],
   controllers: [AppController],
   providers: [AppService],

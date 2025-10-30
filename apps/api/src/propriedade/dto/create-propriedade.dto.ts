@@ -53,10 +53,10 @@ export class CreatePropriedadeDto {
     minimum: 0.1
   })
   @IsNotEmpty()
-  @IsNumber({ maxDecimalPlaces: 2 }, { message: 'Total farm area must be a number with maximum 2 decimal places' })
-  @IsPositive({ message: 'Total farm area must be positive' })
+  @IsNumber({ maxDecimalPlaces: 2 }, { message: 'Total area must be a number with maximum 2 decimal places' })
+  @IsPositive({ message: 'Total area must be positive' })
   @Type(() => Number)
-  total_farm_area_hectares: number;
+  total_area_hectares: number;
 
   @ApiProperty({
     description: 'Área agricultável em hectares',
@@ -64,10 +64,10 @@ export class CreatePropriedadeDto {
     minimum: 0
   })
   @IsNotEmpty()
-  @IsNumber({ maxDecimalPlaces: 2 }, { message: 'Arable area must be a number with maximum 2 decimal places' })
-  @Min(0, { message: 'Arable area must be zero or positive' })
+  @IsNumber({ maxDecimalPlaces: 2 }, { message: 'Agricultural area must be a number with maximum 2 decimal places' })
+  @Min(0, { message: 'Agricultural area must be zero or positive' })
   @Type(() => Number)
-  arable_area_hectares: number;
+  agricultural_area_hectares: number;
 
   @ApiProperty({
     description: 'Área de vegetação em hectares',
@@ -77,7 +77,7 @@ export class CreatePropriedadeDto {
   @IsNotEmpty()
   @IsNumber({ maxDecimalPlaces: 2 }, { message: 'Vegetation area must be a number with maximum 2 decimal places' })
   @Min(0, { message: 'Vegetation area must be zero or positive' })
-  @ValidateAreaSum({ message: 'The sum of arable area and vegetation area cannot exceed the total farm area' })
+  @ValidateAreaSum({ message: 'The sum of agricultural area and vegetation area cannot exceed the total area' })
   @Type(() => Number)
   vegetation_area_hectares: number;
 }

@@ -8,8 +8,8 @@ describe('CreatePropriedadeDto', () => {
     dto.name = 'Fazenda Boa Vista';
     dto.city = 'Ribeirão Preto';
     dto.state = 'SP';
-    dto.total_farm_area_hectares = 1000.0;
-    dto.arable_area_hectares = 800.0;
+    dto.total_area_hectares = 1000.0;
+    dto.agricultural_area_hectares = 800.0;
     dto.vegetation_area_hectares = 200.0;
     return dto;
   };
@@ -93,7 +93,7 @@ describe('CreatePropriedadeDto', () => {
     });
   });
 
-  describe('total_farm_area_hectares validation', () => {
+  describe('total_area_hectares validation', () => {
     test.each([
       ['accept valid positive number', 1000.5, false],
       ['accept number with 2 decimal places', 999.99, false],
@@ -104,13 +104,13 @@ describe('CreatePropriedadeDto', () => {
       ['reject number with more than 2 decimal places', 100.123, true],
     ])('should %s', async (_, value, shouldFail) => {
       const dto = createValidDto();
-      dto.total_farm_area_hectares = value;
+      dto.total_area_hectares = value;
       
-      await expectValidationError(dto, 'total_farm_area_hectares', shouldFail);
+      await expectValidationError(dto, 'total_area_hectares', shouldFail);
     });
   });
 
-  describe('arable_area_hectares validation', () => {
+  describe('agricultural_area_hectares validation', () => {
     test.each([
       ['accept valid positive number', 800.5, false],
       ['accept zero', 0, false],
@@ -119,9 +119,9 @@ describe('CreatePropriedadeDto', () => {
       ['reject number with more than 2 decimal places', 800.123, true],
     ])('should %s', async (_, value, shouldFail) => {
       const dto = createValidDto();
-      dto.arable_area_hectares = value;
+      dto.agricultural_area_hectares = value;
       
-      await expectValidationError(dto, 'arable_area_hectares', shouldFail);
+      await expectValidationError(dto, 'agricultural_area_hectares', shouldFail);
     });
   });
 
@@ -144,21 +144,21 @@ describe('CreatePropriedadeDto', () => {
       ['pass when areas equal total', 1000, 800, 200, false],
       ['pass when areas are less than total', 1000, 700, 200, false],
       ['pass with minimal valid areas', 0.1, 0.05, 0.05, false],
-      ['pass when only arable area is used', 1000, 1000, 0, false],
+      ['pass when only agricultural area is used', 1000, 1000, 0, false],
       ['pass when only vegetation area is used', 1000, 0, 1000, false],
       ['reject when areas exceed total', 1000, 800, 300, true],
-      ['reject when only arable exceeds total', 1000, 1200, 0, true],
+      ['reject when only agricultural exceeds total', 1000, 1200, 0, true],
       ['reject when only vegetation exceeds total', 1000, 0, 1200, true],
-    ])('should %s', async (_, totalArea, arableArea, vegetationArea, shouldFail) => {
+    ])('should %s', async (_, totalArea, agriculturalArea, vegetationArea, shouldFail) => {
       const dto = createValidDto();
-      dto.total_farm_area_hectares = totalArea;
-      dto.arable_area_hectares = arableArea;
+      dto.total_area_hectares = totalArea;
+      dto.agricultural_area_hectares = agriculturalArea;
       dto.vegetation_area_hectares = vegetationArea;
 
       if (shouldFail) {
         const errors = await expectValidationError(dto, 'vegetation_area_hectares', true);
         expect(errors[0].constraints).toHaveProperty('areaSumConstraint');
-        expect(errors[0].constraints.areaSumConstraint).toContain('cannot exceed the total farm area');
+        expect(errors[0].constraints.areaSumConstraint).toContain('cannot exceed the total area');
       } else {
         const errors = await validate(dto);
         expect(errors).toHaveLength(0);

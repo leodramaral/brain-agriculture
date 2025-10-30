@@ -10,23 +10,23 @@ import {
 export class AreaSumConstraintValidator implements ValidatorConstraintInterface {
   validate(value: any, args: ValidationArguments): boolean {
     const object = args.object as any;
-    const totalArea = object.total_farm_area_hectares;
-    const arableArea = object.arable_area_hectares;
+    const totalArea = object.total_area_hectares;
+    const agriculturalArea = object.agricultural_area_hectares;
     const vegetationArea = object.vegetation_area_hectares;
 
     if (
       typeof totalArea !== 'number' ||
-      typeof arableArea !== 'number' ||
+      typeof agriculturalArea !== 'number' ||
       typeof vegetationArea !== 'number'
     ) {
       return true;
     }
 
-    return arableArea + vegetationArea <= totalArea;
+    return agriculturalArea + vegetationArea <= totalArea;
   }
 
   defaultMessage(args: ValidationArguments): string {
-    return 'The sum of arable area and vegetation area cannot exceed the total farm area';
+    return 'The sum of agricultural area and vegetation area cannot exceed the total area';
   }
 }
 
