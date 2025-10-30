@@ -1,21 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
   Box, 
   Heading, 
   Text, 
   Spinner,
-  Table
+  Table,
+  Button,
+  Flex
 } from '@chakra-ui/react';
 import { useGetProdutoresQuery } from '../store/api/produtorApi';
+import { DialogWrapper } from '../components/DialogWrapper';
+import { CreateProdutorForm } from '../components/CreateProdutorForm';
 
 export const ProdutoresView: React.FC = () => {
   const { data: produtores, error, isLoading } = useGetProdutoresQuery();
-
-  useEffect(() => {
-    if (produtores) {
-      console.log('Produtores na view:', produtores);
-    }
-  }, [produtores]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   if (isLoading) {
     return (
@@ -38,9 +37,18 @@ export const ProdutoresView: React.FC = () => {
 
   return (
     <Box>
-      <Heading mb={6} color="green.600" size="xl">
-        Produtores
-      </Heading>
+      <Flex justify="space-between" align="center" mb={6}>
+        <Heading color="green.600" size="xl">
+          Produtores
+        </Heading>
+        <Button 
+          colorScheme="green" 
+          onClick={() => setIsModalOpen(true)}
+          size="md"
+        >
+          Novo Produtor
+        </Button>
+      </Flex>
       
       {produtores && produtores.length > 0 ? (
         <Box>          
@@ -78,6 +86,12 @@ export const ProdutoresView: React.FC = () => {
           </Text>
         </Box>
       )}
+
+      <DialogWrapper
+        isModalOpen={isModalOpen} 
+        setIsModalOpen={setIsModalOpen}
+        body={<CreateProdutorForm onSuccess={() => setIsModalOpen(false)} />}
+      />
     </Box>
   );
 };
