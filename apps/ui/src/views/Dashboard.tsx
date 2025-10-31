@@ -1,21 +1,15 @@
 import React from 'react';
-import { Box, Button, Heading, Text } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import { 
+  Box, 
+  Heading
+} from '@chakra-ui/react';
 
 export const DashboardView: React.FC = () => {
   return (
-    <Box>
-      <Heading mb={6} color="green.600">
+    <Box h="full">
+      <Heading size="lg" color="teal.700" mb={6}>
         Dashboard
       </Heading>
-      <Text>
-        Bem-vindo ao sistema Brain Agriculture!
-      </Text>
-      <RouterLink to="/produtores">
-        <Button>
-          Produtores
-        </Button>
-      </RouterLink>
     </Box>
   );
 };
