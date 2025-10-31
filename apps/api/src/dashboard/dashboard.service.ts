@@ -35,7 +35,7 @@ export class DashboardService {
     const cultureData = await this.propriedadeCulturaRepository
       .createQueryBuilder('propriedadeCultura')
       .select([
-        'propriedadeCultura.cultura as cultura',
+        'propriedadeCultura.cultura as name',
         'COUNT(propriedadeCultura.id)::int as count',
       ])
       .leftJoin('propriedadeCultura.propriedade', 'propriedade')
@@ -69,7 +69,7 @@ export class DashboardService {
       const value = item.count;
       const percentage = totalCultures > 0 ? (value / totalCultures) * 100 : 0;
       return {
-        name: item.cultura,
+        name: item.name,
         value,
         percentage: Math.round(percentage * 100) / 100,
       };

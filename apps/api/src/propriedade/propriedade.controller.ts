@@ -63,7 +63,7 @@ export class PropriedadeController {
   async addCulturas(
     @Param('id') propriedadeId: string,
     @Body() addCulturasDto: AddCulturasPropriedadeDto
-  ): Promise<PropriedadeCultura[]> {
+  ): Promise<any[]> {
     return this.propriedadeService.addCulturas(propriedadeId, addCulturasDto);
   }
 

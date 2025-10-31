@@ -20,6 +20,7 @@ export const ProdutorDetailsView: React.FC = () => {
   const navigate = useNavigate();
   const [isPropriedadeModalOpen, setIsPropriedadeModalOpen] = useState(false);
   const [isCulturaModalOpen, setIsCulturaModalOpen] = useState(false);
+  const [propriedadeSelected, setPropriedadeSelected] = useState<string | null>(null);
   const { data: produtor, error, isLoading } = useGetProdutorByIdQuery(id!);
 
   const {
@@ -117,7 +118,7 @@ export const ProdutorDetailsView: React.FC = () => {
             <Button
               colorScheme="green"
               size="sm"
-              onClick={() => setIsPropriedadeModalOpen(true)}
+              onClick={() => {setIsPropriedadeModalOpen(true);}}
             >
               + Propriedade
             </Button>
@@ -143,7 +144,10 @@ export const ProdutorDetailsView: React.FC = () => {
                     <Button
                     colorScheme="green"
                     size="sm"
-                    onClick={() => setIsCulturaModalOpen(true)}
+                    onClick={() => {
+                      setPropriedadeSelected(propriedade.id);
+                      setIsCulturaModalOpen(true);
+                    }}
                   >
                     + Cultura
                   </Button>
@@ -186,7 +190,7 @@ export const ProdutorDetailsView: React.FC = () => {
         title="Nova Cultura"
         body={
           <AddCulturaForm
-            propriedadeId={id!}
+            propriedadeId={propriedadeSelected!}
             onSuccess={() => setIsCulturaModalOpen(false)}
           />
         }

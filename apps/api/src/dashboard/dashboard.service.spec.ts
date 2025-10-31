@@ -12,6 +12,7 @@ describe('DashboardService', () => {
 
   const mockPropriedadeRepository = {
     createQueryBuilder: jest.fn(),
+    count: jest.fn(),
   };
 
   const mockPropriedadeCulturaRepository = {
@@ -33,13 +34,14 @@ describe('DashboardService', () => {
     cultures: any[];
     landUse: any;
   }) => {
-    const summaryQuery = createMockQueryBuilder(data.summary);
+    mockPropriedadeRepository.count.mockResolvedValue(parseInt(data.summary.totalFarms));
+    const totalHectaresQuery = createMockQueryBuilder({ sum: data.summary.totalHectares });
     const stateQuery = createMockQueryBuilder(data.states);
-    const cultureQuery = createMockQueryBuilder(data.cultures);
+    const cultureQuery = createMockQueryBuilder(data.cultures);    
     const landUseQuery = createMockQueryBuilder(data.landUse);
 
     mockPropriedadeRepository.createQueryBuilder
-      .mockReturnValueOnce(summaryQuery)
+      .mockReturnValueOnce(totalHectaresQuery)
       .mockReturnValueOnce(stateQuery)
       .mockReturnValueOnce(landUseQuery);
 
@@ -87,18 +89,18 @@ describe('DashboardService', () => {
           totalHectares: '1500.50',
         },
         states: [
-          { state: 'SP', count: '5' },
-          { state: 'MG', count: '3' },
-          { state: 'RJ', count: '2' },
+          { state: 'SP', count: 5 },
+          { state: 'MG', count: 3 },
+          { state: 'RJ', count: 2 },
         ],
         cultures: [
-          { cultura: 'Soja', count: '15' },
-          { cultura: 'Milho', count: '10' },
-          { cultura: 'Algodão', count: '5' },
+          { name: 'Soja', count: 15 },
+          { name: 'Milho', count: 10 },
+          { name: 'Algodão', count: 5 },
         ],
         landUse: {
-          totalAgricultural: '1200.30',
-          totalVegetation: '300.20',
+          agricultural: '1200.30',
+          vegetation: '300.20',
         },
       });
 
@@ -106,7 +108,7 @@ describe('DashboardService', () => {
 
       expect(result).toEqual({
         summary: {
-          totalFarms: 10,
+          totalPropriedades: 10,
           totalHectares: 1500.5,
         },
         charts: {
@@ -140,8 +142,8 @@ describe('DashboardService', () => {
         states: [],
         cultures: [],
         landUse: {
-          totalAgricultural: '0',
-          totalVegetation: '0',
+          agricultural: '0',
+          vegetation: '0',
         },
       });
 
@@ -164,16 +166,16 @@ describe('DashboardService', () => {
           totalHectares: '2000.00',
         },
         states: [
-          { state: 'SP', count: '60' },
-          { state: 'MG', count: '40' },
+          { state: 'SP', count: 60 },
+          { state: 'MG', count: 40 },
         ],
         cultures: [
-          { cultura: 'Soja', count: '30' },
-          { cultura: 'Milho', count: '20' },
+          { name: 'Soja', count: 30 },
+          { name: 'Milho', count: 20 },
         ],
         landUse: {
-          totalAgricultural: '1600.00',
-          totalVegetation: '400.00',
+          agricultural: '1600.00',
+          vegetation: '400.00',
         },
       });
 

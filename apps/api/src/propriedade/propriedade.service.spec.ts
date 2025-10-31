@@ -182,12 +182,12 @@ describe('PropriedadeService', () => {
     const addCulturasDto = {
       culturas: [
         {
-          cultura: 'Soja',
+          name: 'Soja',
           safra: 2024,
           planted_area_hectares: 150.5,
         },
         {
-          cultura: 'Milho',
+          name: 'Milho',
           safra: 2024,
           planted_area_hectares: 200.0,
         },
@@ -219,7 +219,24 @@ describe('PropriedadeService', () => {
           propriedade_id: mockPropriedade.id,
         },
       ]);
-      expect(result).toEqual(mockCulturas);
+      expect(result).toEqual([
+        {
+          id: 'cultura-1',
+          name: 'Soja',
+          safra: 2024,
+          planted_area_hectares: 150.5,
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+        },
+        {
+          id: 'cultura-2',
+          name: 'Milho',
+          safra: 2024,
+          planted_area_hectares: 200.0,
+          created_at: expect.any(Date),
+          updated_at: expect.any(Date),
+        },
+      ]);
     });
 
     it('should throw NotFoundException when propriedade does not exist', async () => {
@@ -274,7 +291,24 @@ describe('PropriedadeService', () => {
       expect(result).toEqual({
         propriedade_id: mockPropriedade.id,
         propriedade_name: mockPropriedade.name,
-        culturas: mockCulturas,
+        culturas: [
+          {
+            id: 'cultura-1',
+            name: 'Soja',
+            safra: 2024,
+            planted_area_hectares: 150.5,
+            created_at: expect.any(Date),
+            updated_at: expect.any(Date),
+          },
+          {
+            id: 'cultura-2',
+            name: 'Milho',
+            safra: 2023,
+            planted_area_hectares: 200.0,
+            created_at: expect.any(Date),
+            updated_at: expect.any(Date),
+          },
+        ],
       });
     });
 

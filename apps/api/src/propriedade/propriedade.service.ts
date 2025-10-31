@@ -32,7 +32,7 @@ export class PropriedadeService {
     return await this.propriedadeRepository.save(propriedade);
   }
 
-  async addCulturas(propriedadeId: string, addCulturasDto: AddCulturasPropriedadeDto): Promise<PropriedadeCultura[]> {
+  async addCulturas(propriedadeId: string, addCulturasDto: AddCulturasPropriedadeDto): Promise<any[]> {
     const propriedade = await this.propriedadeRepository.findOne({
       where: { id: propriedadeId },
     });
@@ -43,12 +43,23 @@ export class PropriedadeService {
 
     const novasCulturas = addCulturasDto.culturas.map(culturaDto => 
       this.propriedadeCulturaRepository.create({
-        ...culturaDto,
+        cultura: culturaDto.name,
+        safra: culturaDto.safra,
+        planted_area_hectares: culturaDto.planted_area_hectares,
         propriedade_id: propriedadeId,
       })
     );
 
-    return await this.propriedadeCulturaRepository.save(novasCulturas);
+    const culturasSalvas = await this.propriedadeCulturaRepository.save(novasCulturas);
+
+    return culturasSalvas.map(cultura => ({
+      id: cultura.id,
+      name: cultura.cultura,
+      safra: cultura.safra,
+      planted_area_hectares: cultura.planted_area_hectares,
+      created_at: cultura.created_at,
+      updated_at: cultura.updated_at,
+    }));
   }
 
   async getCulturas(propriedadeId: string): Promise<PropriedadeCulturasResponseDto> {
@@ -65,10 +76,19 @@ export class PropriedadeService {
       order: { safra: 'DESC', cultura: 'ASC' },
     });
 
+    const culturasResponse = culturas.map(cultura => ({
+      id: cultura.id,
+      name: cultura.cultura,
+      safra: cultura.safra,
+      planted_area_hectares: cultura.planted_area_hectares,
+      created_at: cultura.created_at,
+      updated_at: cultura.updated_at,
+    }));
+
     return {
       propriedade_id: propriedade.id,
       propriedade_name: propriedade.name,
-      culturas,
+      culturas: culturasResponse,
     };
   }
 }
