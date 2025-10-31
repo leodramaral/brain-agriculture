@@ -18,10 +18,12 @@ export interface Propriedade {
   vegetation_area_hectares: number;
   created_at: string;
   updated_at: string;
+  culturas?: Cultura[];
 }
 
 export interface Cultura {
-  propriedade_id: string;
+  id: string;
+  propriedade_id?: string;
   name: string;
   safra: number;
   planted_area_hectares: number;

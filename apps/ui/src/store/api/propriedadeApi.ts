@@ -18,6 +18,12 @@ export interface AddCulturaToPropriedadeRequest {
     planted_area_hectares: number;
 }
 
+export interface PropriedadeCulturasResponse {
+    propriedade_id: string;
+    propriedade_name: string;
+    culturas: Cultura[];
+}
+
 export const propriedadeAPi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         createPropriedade: builder.mutation<Propriedade, CreatePropriedadeRequest>({
@@ -27,6 +33,10 @@ export const propriedadeAPi = baseApi.injectEndpoints({
                 body: data,
             }),
             invalidatesTags: ['Propriedade'],
+        }),
+        getPropriedadeCulturas: builder.query<PropriedadeCulturasResponse, string>({
+            query: (propriedadeId) => `/propriedades/${propriedadeId}/culturas`,
+            providesTags: ['Propriedade'],
         }),
         addCulturaToPropriedade: builder.mutation<Cultura, AddCulturaToPropriedadeRequest>({
             query: (data) => {
@@ -50,5 +60,6 @@ export const propriedadeAPi = baseApi.injectEndpoints({
 
 export const {
     useCreatePropriedadeMutation,
+    useGetPropriedadeCulturasQuery,
     useAddCulturaToPropriedadeMutation
 } = propriedadeAPi;
