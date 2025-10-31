@@ -8,18 +8,28 @@
     "apps/ui"
   ],
   "scripts": {
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:ui\"",
     "dev:api": "npm run dev --workspace=apps/api",
     "dev:ui": "npm run dev --workspace=apps/ui",
+    "install:all": "npm install && npm install --workspace=apps/api && npm install --workspace=apps/ui",
+    "build": "npm run build --workspace=apps/api && npm run build --workspace=apps/ui",
+    "test": "npm run test --workspace=apps/api && npm run test --workspace=apps/ui",
+    "lint": "npm run lint --workspace=apps/api && npm run lint --workspace=apps/ui",
+    "lint:fix": "npm run lint:fix --workspace=apps/api && npm run lint:fix --workspace=apps/ui",
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "docker:logs": "docker compose logs -f",
-    "api:dev": "npm run dev --workspace=apps/api",
+    "docker:build": "docker compose build",
+    "docker:rebuild": "docker compose down && docker compose build --no-cache && docker compose up -d",
+    "db:setup": "npm run api:migration:run",
+    "db:reset": "npm run api:migration:revert && npm run api:migration:run",
     "api:migration:generate": "npm run migration:generate --workspace=apps/api",
     "api:migration:run": "npm run migration:run --workspace=apps/api",
     "api:migration:revert": "npm run migration:revert --workspace=apps/api"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
+    "concurrently": "^8.2.2",
     "typescript": "^5.0.0"
   },
   "engines": {
