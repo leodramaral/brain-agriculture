@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -11,10 +11,13 @@ import {
   Flex
 } from '@chakra-ui/react';
 import { useGetProdutorByIdQuery, useGetPropriedadesByProdutorIdQuery } from '../store/api/produtorApi';
+import { DialogWrapper } from '../components/DialogWrapper';
+import { CreatePropriedadeForm } from '../components/CreatePropriedadeForm';
 
 export const ProdutorDetailsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [isPropriedadeModalOpen, setIsPropriedadeModalOpen] = useState(false);
   const { data: produtor, error, isLoading } = useGetProdutorByIdQuery(id!);
 
   const {
@@ -109,6 +112,13 @@ export const ProdutorDetailsView: React.FC = () => {
             <Heading size="md" color="gray.700">
               Propriedades
             </Heading>
+            <Button
+              colorScheme="green"
+              size="sm"
+              onClick={() => setIsPropriedadeModalOpen(true)}
+            >
+              Nova Propriedade
+            </Button>
           </Flex>
         </Card.Header>
         <Card.Body>
@@ -160,6 +170,18 @@ export const ProdutorDetailsView: React.FC = () => {
           )}
         </Card.Body>
       </Card.Root>
+
+      <DialogWrapper
+        isModalOpen={isPropriedadeModalOpen}
+        setIsModalOpen={setIsPropriedadeModalOpen}
+        title="Nova Propriedade"
+        body={
+          <CreatePropriedadeForm
+            produtorId={id!}
+            onSuccess={() => setIsPropriedadeModalOpen(false)}
+          />
+        }
+      />
     </Box>
   );
 };
