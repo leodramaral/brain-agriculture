@@ -1,5 +1,5 @@
 import { baseApi } from './baseApi';
-import type { Produtor } from '../../types';
+import type { Produtor, Propriedade } from '../../types';
 
 const PRODUTORES_ENDPOINT = '/produtores';
 
@@ -22,7 +22,15 @@ export const produtorApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Produtor'],
     }),
+    getProdutorById: builder.query<Produtor, string>({
+      query: (id) => `${PRODUTORES_ENDPOINT}/${id}`,
+      providesTags: ['Produtor'],
+    }),
+    getPropriedadesByProdutorId: builder.query<Propriedade[], string>({
+      query: (produtorId) => `${PRODUTORES_ENDPOINT}/${produtorId}/propriedades`,
+      providesTags: ['Propriedade'],
+    })
   }),
 });
 
-export const { useGetProdutoresQuery, useCreateProdutorMutation } = produtorApi;
+export const { useGetProdutoresQuery, useCreateProdutorMutation, useGetProdutorByIdQuery, useGetPropriedadesByProdutorIdQuery } = produtorApi;

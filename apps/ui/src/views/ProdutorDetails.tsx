@@ -8,21 +8,22 @@ import {
   Card,
   Spinner,
   Grid,
-  Badge,
   Flex
 } from '@chakra-ui/react';
-import { useGetProdutoresQuery } from '../store/api/produtorApi';
-import { useGetPropriedadesQuery } from '../store/api/propriedadesApi';
+import { useGetProdutorByIdQuery, useGetPropriedadesByProdutorIdQuery } from '../store/api/produtorApi';
 
 export const ProdutorDetailsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { data: produtores, error, isLoading } = useGetProdutoresQuery();
-  const { data: propriedades } = useGetPropriedadesQuery();
+  const { data: produtor, error, isLoading } = useGetProdutorByIdQuery(id!);
 
-  console.log('Propriedades carregadas:', propriedades);
-
-  const produtor = produtores?.find(p => p.id === id);
+  const {
+    data: propriedades,
+    error: propriedadesError,
+    isLoading: propriedadesLoading
+  } = useGetPropriedadesByProdutorIdQuery(id!, {
+    skip: !produtor?.id || !produtor || isLoading
+  });
 
   const handleGoBack = () => {
     navigate('/produtores');
@@ -108,16 +109,50 @@ export const ProdutorDetailsView: React.FC = () => {
             <Heading size="md" color="gray.700">
               Propriedades
             </Heading>
-            <Badge colorScheme="green" fontSize="sm">
-              {Array.isArray(produtor.propriedades) ? produtor.propriedades.length : 0} propriedade(s)
-            </Badge>
           </Flex>
         </Card.Header>
         <Card.Body>
-          {Array.isArray(produtor.propriedades) && produtor.propriedades.length > 0 ? (
-            <Text color="gray.600">
-              Lista de propriedades será implementada aqui quando a API fornecer os detalhes.
+          {propriedadesLoading ? (
+            <Box display="flex" alignItems="center" gap={3}>
+              <Spinner size="sm" color="green.500" />
+              <Text color="gray.600">Carregando propriedades...</Text>
+            </Box>
+          ) : propriedadesError ? (
+            <Text color="red.500">
+              Erro ao carregar propriedades do produtor.
             </Text>
+          ) : propriedades && propriedades.length > 0 ? (
+            <Box>
+              <Text color="gray.600" mb={4}>
+                {propriedades.length} propriedade(s) encontrada(s):
+              </Text>
+              {propriedades.map((propriedade) => (
+                <Box key={propriedade.id} p={4} border="1px" borderColor="gray.200" borderRadius="md" mb={3}>
+                  <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
+                    <Box>
+                      <Text fontSize="sm" color="gray.600">Nome</Text>
+                      <Text fontWeight="medium">{propriedade.name}</Text>
+                    </Box>
+                    <Box>
+                      <Text fontSize="sm" color="gray.600">Local</Text>
+                      <Text>{propriedade.city} - {propriedade.state}</Text>
+                    </Box>
+                    <Box>
+                      <Text fontSize="sm" color="gray.600">Área Vegetal</Text>
+                      <Text>{propriedade.vegetation_area_hectares} hectares</Text>
+                    </Box>
+                    <Box>
+                      <Text fontSize="sm" color="gray.600">Área Agrícola</Text>
+                      <Text>{propriedade.agricultural_area_hectares} hectares</Text>
+                    </Box>
+                    <Box>
+                      <Text fontSize="sm" color="gray.600">Área Total</Text>
+                      <Text>{propriedade.total_area_hectares} hectares</Text>
+                    </Box>
+                  </Grid>
+                </Box>
+              ))}
+            </Box>
           ) : (
             <Text color="gray.500" fontStyle="italic">
               Nenhuma propriedade cadastrada para este produtor.
