@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Heading, SimpleGrid, Skeleton } from '@chakra-ui/react';
 import { useGetDashboardStatsQuery } from '../store/api/dashboardApi';
 import { SummaryCard } from '../components/SummaryCard';
+import { PieChart } from '../components/PieChart';
 
 export const DashboardView: React.FC = () => {
   const { data: dashboardStats, isLoading } = useGetDashboardStatsQuery();
@@ -37,23 +38,41 @@ export const DashboardView: React.FC = () => {
       </Box>
 
       <Box>
-        <Heading size="md" color="gray.700" mb={4}>
-          Gráficos e Análises
+        <Heading size="md" color="gray.700" mb={6}>
+          Análises por Gráficos
         </Heading>
-        <Box
-          bg="gray.50"
-          border="2px dashed"
-          borderColor="gray.300"
-          borderRadius="lg"
-          h="400px"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Heading size="sm" color="gray.500">
-            Gráficos serão adicionados aqui
-          </Heading>
-        </Box>
+
+        {isLoading ? (
+          <SimpleGrid columns={{ base: 1, lg: 3 }} gap={6}>
+            <Skeleton height="350px" borderRadius="lg" />
+            <Skeleton height="350px" borderRadius="lg" />
+            <Skeleton height="350px" borderRadius="lg" />
+          </SimpleGrid>
+        ) : (
+          <SimpleGrid columns={{ base: 1, lg: 3 }} gap={6}>
+            <PieChart
+              title="Propriedades por Estado"
+              data={dashboardStats?.charts.byState || []}
+              colors={['#2B6CB0', '#38A169', '#ED8936', '#9F7AEA', '#F56565']}
+            />
+
+            <PieChart
+              title="Culturas Plantadas"
+              data={dashboardStats?.charts.byCulture || []}
+              colors={['#38A169', '#4FD1C7', '#ECC94B', '#FC8181', '#9F7AEA']}
+            />
+
+            <PieChart
+              title="Uso do Solo"
+              data={dashboardStats?.charts.byLandUse?.map(item => ({
+                name: item.type === 'agricultural' ? 'Área Agricultável' : 'Vegetação',
+                value: item.hectares,
+                percentage: item.percentage
+              })) || []}
+              colors={['#68D391', '#4A5568']}
+            />
+          </SimpleGrid>
+        )}
       </Box>
     </Box>
   );
