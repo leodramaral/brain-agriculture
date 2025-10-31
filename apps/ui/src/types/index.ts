@@ -19,3 +19,27 @@ export interface Propriedade {
   created_at: string;
   updated_at: string;
 }
+
+export interface DashboardStats {
+  summary: {
+    totalPropriedades: number;
+    totalHectares: number;
+  };
+  charts: {
+    byState: {
+      name: string;
+      value: number;
+      percentage: number;
+    }[];
+    byCulture: {
+      name: string;
+      value: number;
+      percentage: number;
+    }[];
+    byLandUse: {
+      type: string;
+      hectares: number;
+      percentage: number;
+    }[];
+  };
+}

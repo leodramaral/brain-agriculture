@@ -15,19 +15,18 @@ export class DashboardService {
   ) {}
 
   async getDashboardStats(): Promise<DashboardStatsDto> {
-    const summaryData = await this.propriedadeRepository
+    const totalPropriedades = await this.propriedadeRepository.count();
+    const totalHectaresResult = await this.propriedadeRepository
       .createQueryBuilder('propriedade')
-      .select([
-        'COUNT(propriedade.id) as totalFarms',
-        'SUM(propriedade.total_area_hectares) as totalHectares',
-      ])
+      .select('SUM(propriedade.total_area_hectares)', 'sum')
       .getRawOne();
+    const totalHectares = parseFloat(totalHectaresResult?.sum || '0');
 
     const stateData = await this.propriedadeRepository
       .createQueryBuilder('propriedade')
       .select([
         'propriedade.state as state',
-        'COUNT(propriedade.id) as count',
+        'COUNT(propriedade.id)::int as count',
       ])
       .groupBy('propriedade.state')
       .orderBy('count', 'DESC')
@@ -37,27 +36,27 @@ export class DashboardService {
       .createQueryBuilder('propriedadeCultura')
       .select([
         'propriedadeCultura.cultura as cultura',
-        'COUNT(propriedadeCultura.id) as count',
+        'COUNT(propriedadeCultura.id)::int as count',
       ])
       .leftJoin('propriedadeCultura.propriedade', 'propriedade')
       .groupBy('propriedadeCultura.cultura')
       .orderBy('count', 'DESC')
       .getRawMany();
 
-    const landUseData = await this.propriedadeRepository
+    const landUseResult = await this.propriedadeRepository
       .createQueryBuilder('propriedade')
       .select([
-        'SUM(propriedade.agricultural_area_hectares) as totalAgricultural',
-        'SUM(propriedade.vegetation_area_hectares) as totalVegetation',
+        'SUM(propriedade.agricultural_area_hectares) as agricultural',
+        'SUM(propriedade.vegetation_area_hectares) as vegetation'
       ])
       .getRawOne();
-
-    const totalFarms = parseInt(summaryData.totalFarms || '0');
-    const totalHectares = parseFloat(summaryData.totalHectares || '0');
+    
+    const totalAgricultural = parseFloat(landUseResult?.agricultural || '0');
+    const totalVegetation = parseFloat(landUseResult?.vegetation || '0');
 
     const byState = stateData.map((item) => {
-      const value = parseInt(item.count);
-      const percentage = totalFarms > 0 ? (value / totalFarms) * 100 : 0;
+      const value = item.count;
+      const percentage = totalPropriedades > 0 ? (value / totalPropriedades) * 100 : 0;
       return {
         name: item.state,
         value,
@@ -65,9 +64,9 @@ export class DashboardService {
       };
     });
 
-    const totalCultures = cultureData.reduce((sum, item) => sum + parseInt(item.count), 0);
+    const totalCultures = cultureData.reduce((sum, item) => sum + item.count, 0);
     const byCulture = cultureData.map((item) => {
-      const value = parseInt(item.count);
+      const value = item.count;
       const percentage = totalCultures > 0 ? (value / totalCultures) * 100 : 0;
       return {
         name: item.cultura,
@@ -76,10 +75,7 @@ export class DashboardService {
       };
     });
 
-    const totalAgricultural = parseFloat(landUseData.totalAgricultural || '0');
-    const totalVegetation = parseFloat(landUseData.totalVegetation || '0');
     const landUseTotal = totalAgricultural + totalVegetation;
-
     const byLandUse = [
       {
         type: 'agricultural',
@@ -95,7 +91,7 @@ export class DashboardService {
 
     return {
       summary: {
-        totalFarms,
+        totalPropriedades,
         totalHectares,
       },
       charts: {

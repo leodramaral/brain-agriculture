@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class DashboardSummaryDto {
-  @ApiProperty({ description: 'Total de fazendas cadastradas', example: 150 })
-  totalFarms: number;
+  @ApiProperty({ description: 'Total de propriedades cadastradas', example: 150 })
+  totalPropriedades: number;
 
   @ApiProperty({ description: 'Total de hectares registrados', example: 25680.50 })
   totalHectares: number;

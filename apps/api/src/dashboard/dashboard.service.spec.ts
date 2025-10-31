@@ -147,7 +147,7 @@ describe('DashboardService', () => {
 
       const result = await service.getDashboardStats();
 
-      expect(result.summary.totalFarms).toBe(0);
+      expect(result.summary.totalPropriedades).toBe(0);
       expect(result.summary.totalHectares).toBe(0);
       expect(result.charts.byState).toEqual([]);
       expect(result.charts.byCulture).toEqual([]);

@@ -38,7 +38,7 @@ describe('DashboardController', () => {
     it('should return dashboard statistics', async () => {
       const mockStats: DashboardStatsDto = {
         summary: {
-          totalFarms: 25,
+          totalPropriedades: 25,
           totalHectares: 5000.75,
         },
         charts: {
@@ -76,7 +76,7 @@ describe('DashboardController', () => {
     it('should return empty data when no farms exist', async () => {
       const emptyStats: DashboardStatsDto = {
         summary: {
-          totalFarms: 0,
+          totalPropriedades: 0,
           totalHectares: 0,
         },
         charts: {
@@ -94,7 +94,7 @@ describe('DashboardController', () => {
       const result = await controller.getStats();
 
       expect(result).toEqual(emptyStats);
-      expect(result.summary.totalFarms).toBe(0);
+      expect(result.summary.totalPropriedades).toBe(0);
       expect(result.summary.totalHectares).toBe(0);
       expect(service.getDashboardStats).toHaveBeenCalledTimes(1);
     });
