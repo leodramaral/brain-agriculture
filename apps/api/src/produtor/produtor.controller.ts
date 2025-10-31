@@ -3,6 +3,7 @@ import { ApiTags, ApiOperation, ApiBody, ApiCreatedResponse, ApiBadRequestRespon
 import { ProdutorService } from './produtor.service';
 import { CreateProdutorDto } from './dto/create-produtor.dto';
 import { Produtor } from '../entities/produtor.entity';
+import { Propriedade } from '../entities/propriedade.entity';
 
 @ApiTags('produtores')
 @Controller('produtores')
@@ -62,5 +63,27 @@ export class ProdutorController {
   })
   async findOne(@Param('id') id: string): Promise<Produtor> {
     return this.produtorService.findOne(id);
+  }
+
+  @Get(':id/propriedades')
+  @ApiOperation({ 
+    summary: 'Buscar propriedades de um produtor',
+    description: 'Retorna todas as propriedades rurais cadastradas para um produtor específico'
+  })
+  @ApiParam({
+    name: 'id',
+    description: 'ID único do produtor',
+    example: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
+    format: 'uuid'
+  })
+  @ApiOkResponse({ 
+    description: 'Lista de propriedades retornada com sucesso',
+    type: [Propriedade]
+  })
+  @ApiNotFoundResponse({ 
+    description: 'Produtor não encontrado'
+  })
+  async getPropriedades(@Param('id') id: string): Promise<Propriedade[]> {
+    return this.produtorService.getPropriedades(id);
   }
 }
