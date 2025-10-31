@@ -3,7 +3,6 @@ import type { Produtor } from '../../types';
 
 const PRODUTORES_ENDPOINT = '/produtores';
 
-// Tipos para criação de produtor
 export interface CreateProdutorRequest {
   name: string;
   document: string;

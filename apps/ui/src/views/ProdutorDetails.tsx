@@ -12,13 +12,16 @@ import {
   Flex
 } from '@chakra-ui/react';
 import { useGetProdutoresQuery } from '../store/api/produtorApi';
+import { useGetPropriedadesQuery } from '../store/api/propriedadesApi';
 
 export const ProdutorDetailsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: produtores, error, isLoading } = useGetProdutoresQuery();
+  const { data: propriedades } = useGetPropriedadesQuery();
 
-  // Encontrar o produtor específico
+  console.log('Propriedades carregadas:', propriedades);
+
   const produtor = produtores?.find(p => p.id === id);
 
   const handleGoBack = () => {
@@ -99,7 +102,6 @@ export const ProdutorDetailsView: React.FC = () => {
         </Card.Body>
       </Card.Root>
 
-      {/* Card Propriedades */}
       <Card.Root mb={6}>
         <Card.Header>
           <Flex justify="space-between" align="center">
@@ -121,46 +123,6 @@ export const ProdutorDetailsView: React.FC = () => {
               Nenhuma propriedade cadastrada para este produtor.
             </Text>
           )}
-        </Card.Body>
-      </Card.Root>
-
-      {/* Card Informações do Sistema */}
-      <Card.Root>
-        <Card.Header>
-          <Heading size="md" color="gray.700">
-            Informações do Sistema
-          </Heading>
-        </Card.Header>
-        <Card.Body>
-          <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={6}>
-            <Box>
-              <Text fontSize="sm" color="gray.600" mb={1}>
-                Data de Criação
-              </Text>
-              <Text fontSize="md">
-                {new Date(produtor.created_at).toLocaleDateString('pt-BR')} às {' '}
-                {new Date(produtor.created_at).toLocaleTimeString('pt-BR')}
-              </Text>
-            </Box>
-            <Box>
-              <Text fontSize="sm" color="gray.600" mb={1}>
-                Última Atualização
-              </Text>
-              <Text fontSize="md">
-                {new Date(produtor.updated_at).toLocaleDateString('pt-BR')} às {' '}
-                {new Date(produtor.updated_at).toLocaleTimeString('pt-BR')}
-              </Text>
-            </Box>
-          </Grid>
-          <Box height="1px" bg="gray.200" my={4} />
-          <Box>
-            <Text fontSize="sm" color="gray.600" mb={1}>
-              ID do Sistema
-            </Text>
-            <Text fontSize="sm" fontFamily="mono" color="gray.500">
-              {produtor.id}
-            </Text>
-          </Box>
         </Card.Body>
       </Card.Root>
     </Box>
