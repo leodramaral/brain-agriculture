@@ -13,11 +13,13 @@ import {
 import { useGetProdutorByIdQuery, useGetPropriedadesByProdutorIdQuery } from '../store/api/produtorApi';
 import { DialogWrapper } from '../components/DialogWrapper';
 import { CreatePropriedadeForm } from '../components/CreatePropriedadeForm';
+import { AddCulturaForm } from '../components/AddCulturaForm';
 
 export const ProdutorDetailsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [isPropriedadeModalOpen, setIsPropriedadeModalOpen] = useState(false);
+  const [isCulturaModalOpen, setIsCulturaModalOpen] = useState(false);
   const { data: produtor, error, isLoading } = useGetProdutorByIdQuery(id!);
 
   const {
@@ -117,7 +119,7 @@ export const ProdutorDetailsView: React.FC = () => {
               size="sm"
               onClick={() => setIsPropriedadeModalOpen(true)}
             >
-              Nova Propriedade
+              + Propriedade
             </Button>
           </Flex>
         </Card.Header>
@@ -137,7 +139,14 @@ export const ProdutorDetailsView: React.FC = () => {
                 {propriedades.length} propriedade(s) encontrada(s):
               </Text>
               {propriedades.map((propriedade) => (
-                <Box key={propriedade.id} p={4} border="1px" borderColor="gray.200" borderRadius="md" mb={3}>
+                  <Box key={propriedade.id} p={4} border="1px" borderColor="gray.200" borderRadius="md" mb={3}>
+                    <Button
+                    colorScheme="green"
+                    size="sm"
+                    onClick={() => setIsCulturaModalOpen(true)}
+                  >
+                    + Cultura
+                  </Button>
                   <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
                     <Box>
                       <Text fontSize="sm" color="gray.600">Nome</Text>
@@ -170,6 +179,18 @@ export const ProdutorDetailsView: React.FC = () => {
           )}
         </Card.Body>
       </Card.Root>
+
+      <DialogWrapper
+        isModalOpen={isCulturaModalOpen}
+        setIsModalOpen={setIsCulturaModalOpen}
+        title="Nova Cultura"
+        body={
+          <AddCulturaForm
+            propriedadeId={id!}
+            onSuccess={() => setIsCulturaModalOpen(false)}
+          />
+        }
+      />
 
       <DialogWrapper
         isModalOpen={isPropriedadeModalOpen}

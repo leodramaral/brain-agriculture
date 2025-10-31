@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Input, Text, Grid } from '@chakra-ui/react';
 import { formatState, schema } from './rules';
 import { NumberInputField } from './NumberInputField';
-import { useCreatePropriedadeMutation } from '../../store/api/produtorApi';
+import { useCreatePropriedadeMutation } from '../../store/api/propriedadeApi';
 
 interface FormData {
   name: string;

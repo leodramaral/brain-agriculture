@@ -8,16 +8,6 @@ export interface CreateProdutorRequest {
   document: string;
 }
 
-export interface CreatePropriedadeRequest {
-  name: string;
-  city: string;
-  state: string;
-  total_area_hectares: number;
-  agricultural_area_hectares: number;
-  vegetation_area_hectares: number;
-  produtor_id: string;
-}
-
 export const produtorApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getProdutores: builder.query<Produtor[], void>({
@@ -40,14 +30,6 @@ export const produtorApi = baseApi.injectEndpoints({
       query: (produtorId) => `${PRODUTORES_ENDPOINT}/${produtorId}/propriedades`,
       providesTags: ['Propriedade'],
     }),
-    createPropriedade: builder.mutation<Propriedade, CreatePropriedadeRequest>({
-      query: (data) => ({
-        url: '/propriedades',
-        method: 'POST',
-        body: data,
-      }),
-      invalidatesTags: ['Propriedade'],
-    })
   }),
 });
 
@@ -55,6 +37,5 @@ export const {
   useGetProdutoresQuery,
   useCreateProdutorMutation,
   useGetProdutorByIdQuery,
-  useGetPropriedadesByProdutorIdQuery,
-  useCreatePropriedadeMutation
+  useGetPropriedadesByProdutorIdQuery
 } = produtorApi;

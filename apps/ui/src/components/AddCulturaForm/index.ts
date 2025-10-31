@@ -1,0 +1,1 @@
+export { AddCulturaForm } from './AddCulturaForm';

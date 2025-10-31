@@ -20,6 +20,15 @@ export interface Propriedade {
   updated_at: string;
 }
 
+export interface Cultura {
+  propriedade_id: string;
+  name: string;
+  safra: number;
+  planted_area_hectares: number;
+  created_at: string;
+  updated_at: string;
+}
+
 export interface DashboardStats {
   summary: {
     totalPropriedades: number;
