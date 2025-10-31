@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Heading, Text, Spinner, Table, Button, Flex } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import { useGetProdutoresQuery } from '../store/api/produtorApi';
 import { DialogWrapper } from '../components/DialogWrapper';
 import { CreateProdutorForm } from '../components/CreateProdutorForm';
@@ -7,6 +8,11 @@ import { CreateProdutorForm } from '../components/CreateProdutorForm';
 export const ProdutoresView: React.FC = () => {
   const { data: produtores, error, isLoading } = useGetProdutoresQuery();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleRowClick = (produtorId: string) => {
+    navigate(`/produtores/${produtorId}`);
+  };
 
   if (isLoading) {
     return (
@@ -49,7 +55,13 @@ export const ProdutoresView: React.FC = () => {
             </Table.Header>
             <Table.Body>
               {produtores.map(produtor => (
-                <Table.Row key={produtor.id}>
+                <Table.Row
+                  key={produtor.id}
+                  cursor="pointer"
+                  _hover={{ bg: 'gray.50' }}
+                  onClick={() => handleRowClick(produtor.id)}
+                  transition="background-color 0.2s"
+                >
                   <Table.Cell fontWeight="medium">{produtor.name}</Table.Cell>
                   <Table.Cell>{produtor.document}</Table.Cell>
                   <Table.Cell>
