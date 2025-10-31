@@ -15,12 +15,9 @@ interface CreateProdutorFormProps {
   onSuccess?: () => void;
 }
 
-export const CreateProdutorForm: React.FC<CreateProdutorFormProps> = ({
-  onSubmit,
-  onSuccess,
-}) => {
+export const CreateProdutorForm: React.FC<CreateProdutorFormProps> = ({ onSubmit, onSuccess }) => {
   const [createProdutor, { isLoading }] = useCreateProdutorMutation();
-  
+
   const {
     register,
     handleSubmit,
@@ -31,7 +28,6 @@ export const CreateProdutorForm: React.FC<CreateProdutorFormProps> = ({
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
-
 
   const handleDocumentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatDocument(e.target.value);
@@ -47,9 +43,9 @@ export const CreateProdutorForm: React.FC<CreateProdutorFormProps> = ({
           name: data.name,
           document: data.document,
         }).unwrap();
-        
+
         reset();
-        
+
         if (onSuccess) {
           onSuccess();
         }

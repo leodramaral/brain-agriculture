@@ -1,1 +1,1 @@
-export * from "./DialogWrapper";
+export * from './DialogWrapper';

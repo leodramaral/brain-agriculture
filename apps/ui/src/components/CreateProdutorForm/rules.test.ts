@@ -5,7 +5,7 @@ describe('rules.ts', () => {
     describe('CPF formatting', () => {
       it('should format CPF correctly for partial input', () => {
         expect(formatDocument('123')).toBe('123');
-        expect(formatDocument('12345')).toBe('123.45');  
+        expect(formatDocument('12345')).toBe('123.45');
         expect(formatDocument('123456789')).toBe('123.456.789');
         expect(formatDocument('12345678901')).toBe('123.456.789-01');
       });
@@ -71,13 +71,17 @@ describe('rules.ts', () => {
 
       it('should reject name with less than 2 characters', async () => {
         const invalidData = { name: 'A', document: '123.456.789-09' };
-        await expect(schema.validate(invalidData)).rejects.toThrow('Nome deve ter pelo menos 2 caracteres');
+        await expect(schema.validate(invalidData)).rejects.toThrow(
+          'Nome deve ter pelo menos 2 caracteres'
+        );
       });
 
       it('should reject name with more than 100 characters', async () => {
         const longName = 'A'.repeat(101);
         const invalidData = { name: longName, document: '123.456.789-09' };
-        await expect(schema.validate(invalidData)).rejects.toThrow('Nome deve ter no máximo 100 caracteres');
+        await expect(schema.validate(invalidData)).rejects.toThrow(
+          'Nome deve ter no máximo 100 caracteres'
+        );
       });
 
       it('should accept name with exactly 2 characters', async () => {
@@ -100,7 +104,9 @@ describe('rules.ts', () => {
 
       it('should reject invalid document length', async () => {
         const invalidData = { name: 'João Silva', document: '123456' };
-        await expect(schema.validate(invalidData)).rejects.toThrow('Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido');
+        await expect(schema.validate(invalidData)).rejects.toThrow(
+          'Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido'
+        );
       });
 
       describe('CPF validation', () => {
@@ -117,17 +123,23 @@ describe('rules.ts', () => {
 
         it('should reject invalid CPF', async () => {
           const invalidData = { name: 'João Silva', document: '12345678901' };
-          await expect(schema.validate(invalidData)).rejects.toThrow('Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido');
+          await expect(schema.validate(invalidData)).rejects.toThrow(
+            'Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido'
+          );
         });
 
         it('should reject CPF with all same digits', async () => {
           const invalidData = { name: 'João Silva', document: '11111111111' };
-          await expect(schema.validate(invalidData)).rejects.toThrow('Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido');
+          await expect(schema.validate(invalidData)).rejects.toThrow(
+            'Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido'
+          );
         });
 
         it('should reject formatted invalid CPF', async () => {
           const invalidData = { name: 'João Silva', document: '123.456.789-01' };
-          await expect(schema.validate(invalidData)).rejects.toThrow('Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido');
+          await expect(schema.validate(invalidData)).rejects.toThrow(
+            'Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido'
+          );
         });
       });
 
@@ -145,12 +157,16 @@ describe('rules.ts', () => {
 
         it('should reject invalid CNPJ', async () => {
           const invalidData = { name: 'Empresa LTDA', document: '12345678901234' };
-          await expect(schema.validate(invalidData)).rejects.toThrow('Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido');
+          await expect(schema.validate(invalidData)).rejects.toThrow(
+            'Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido'
+          );
         });
 
         it('should reject formatted invalid CNPJ', async () => {
           const invalidData = { name: 'Empresa LTDA', document: '12.345.678/9012-34' };
-          await expect(schema.validate(invalidData)).rejects.toThrow('Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido');
+          await expect(schema.validate(invalidData)).rejects.toThrow(
+            'Documento deve ser um CPF (11 dígitos) ou CNPJ (14 dígitos) válido'
+          );
         });
       });
     });

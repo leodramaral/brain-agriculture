@@ -19,5 +19,15 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      'no-trailing-spaces': 'error',
+      'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
+      'eol-last': ['error', 'always'],
+      'comma-dangle': ['error', 'only-multiline'],
+      'object-curly-spacing': ['error', 'always'],
+      'array-bracket-spacing': ['error', 'never'],
+      'semi': ['error', 'always'],
+      'quotes': ['error', 'single', { avoidEscape: true }],
+    },
   },
 ])

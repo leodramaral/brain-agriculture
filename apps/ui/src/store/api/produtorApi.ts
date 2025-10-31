@@ -10,13 +10,13 @@ export interface CreateProdutorRequest {
 }
 
 export const produtorApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getProdutores: builder.query<Produtor[], void>({
       query: () => PRODUTORES_ENDPOINT,
       providesTags: ['Produtor'],
     }),
     createProdutor: builder.mutation<Produtor, CreateProdutorRequest>({
-      query: (data) => ({
+      query: data => ({
         url: PRODUTORES_ENDPOINT,
         method: 'POST',
         body: data,
