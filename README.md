@@ -1,28 +1,5 @@
 # 🌾 Brain Agriculture
 
-## 📋 Funcionalidades Principais
-
-### 🌱 Sistema de Culturas
-- Adição de culturas às propriedades
-- Validação de safras (1900-2030)
-- Interface com cards individuais
-
-### 📊 Dashboard
-- Gráficos de pizza interativos com Chart.js
-- Cards de métricas com cores semânticas
-- Layout responsivo mobile-first
-
-### 🏠 Interface de Propriedades
-- Cards modernos com layout aprimorado
-- Visualização integrada de culturas
-- Informações categorizadas por cores
-- Estados de loading com skeleton loaders
-
-### 🧩 Componentes Reutilizáveis
-- `NumberInputField` para consistência
-- `CulturasList` para exibição padronizada
-- `PieChart` para gráficos uniformes
-
 ## 🚀 Como Executar a Aplicação
 
 ### Opção 1: Usando Docker (Recomendado)
