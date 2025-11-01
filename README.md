@@ -1,4 +1,3 @@
-````markdown
 # 🌾 Brain Agriculture
 
 ## 📋 Funcionalidades Principais
@@ -397,4 +396,3 @@ npm run test:coverage --workspace=apps/ui
 - `yup` - Schema de validação
 - `chart.js` + `react-chartjs-2` - Gráficos interativos
 - `react-router-dom` - Roteamento SPA
-
