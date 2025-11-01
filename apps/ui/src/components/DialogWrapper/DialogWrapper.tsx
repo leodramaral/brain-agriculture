@@ -6,8 +6,6 @@ import {
   DialogTitle,
   DialogCloseTrigger,
   DialogBody,
-  DialogFooter,
-  Button,
 } from '@chakra-ui/react';
 
 interface DialogWrapperProps {
@@ -54,21 +52,32 @@ export const DialogWrapper: React.FC<DialogWrapperProps> = ({
       >
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <DialogCloseTrigger />
+          <DialogCloseTrigger
+            position="absolute"
+            top="16px"
+            right="16px"
+            borderRadius="full"
+            w="32px"
+            h="32px"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            fontSize="18px"
+            fontWeight="bold"
+            border="none"
+            cursor="pointer"
+          >
+            ×
+          </DialogCloseTrigger>
         </DialogHeader>
         <DialogBody
-          maxH="calc(90vh - 120px)"
+          maxH="calc(90vh - 80px)"
           overflowY="auto"
           px={6}
           py={4}
         >
           {body}
         </DialogBody>
-        <DialogFooter>
-          <Button variant="outline" onClick={() => setIsModalOpen(false)}>
-            Cancelar
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </DialogRoot>
   );

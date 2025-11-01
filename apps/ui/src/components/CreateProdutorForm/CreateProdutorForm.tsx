@@ -97,7 +97,7 @@ export const CreateProdutorForm: React.FC<CreateProdutorFormProps> = ({ onSubmit
 
           <Button
             type="submit"
-            colorScheme="blue"
+            background='teal.600'
             size="lg"
             width="full"
             loading={isLoading}

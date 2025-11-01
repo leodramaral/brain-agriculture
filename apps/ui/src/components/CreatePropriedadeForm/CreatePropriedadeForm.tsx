@@ -169,7 +169,7 @@ export const CreatePropriedadeForm: React.FC<CreatePropriedadeFormProps> = ({
 
           <Button
             type="submit"
-            colorScheme="blue"
+            background='teal.600'
             size="lg"
             width="full"
             loading={isLoading}

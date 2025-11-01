@@ -10,7 +10,7 @@ export const ProdutoresView: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleRowClick = (produtorId: string) => {
+  const handleViewDetails = (produtorId: string) => {
     navigate(`/produtores/${produtorId}`);
   };
 
@@ -37,8 +37,8 @@ export const ProdutoresView: React.FC = () => {
         <Heading color="teal.700" size="lg">
           Produtores
         </Heading>
-        <Button colorScheme="green" onClick={() => setIsModalOpen(true)} size="md">
-          Novo Produtor
+        <Button background='teal.600' onClick={() => setIsModalOpen(true)} size="md">
+          + Produtor
         </Button>
       </Flex>
 
@@ -51,15 +51,14 @@ export const ProdutoresView: React.FC = () => {
                 <Table.ColumnHeader fontWeight="semibold">Documento</Table.ColumnHeader>
                 <Table.ColumnHeader fontWeight="semibold">Propriedades</Table.ColumnHeader>
                 <Table.ColumnHeader fontWeight="semibold">Criado em</Table.ColumnHeader>
+                <Table.ColumnHeader fontWeight="semibold" textAlign="center">Ações</Table.ColumnHeader>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {produtores.map(produtor => (
                 <Table.Row
                   key={produtor.id}
-                  cursor="pointer"
                   _hover={{ bg: 'gray.50' }}
-                  onClick={() => handleRowClick(produtor.id)}
                   transition="background-color 0.2s"
                 >
                   <Table.Cell fontWeight="medium">{produtor.name}</Table.Cell>
@@ -69,6 +68,19 @@ export const ProdutoresView: React.FC = () => {
                   </Table.Cell>
                   <Table.Cell fontSize="sm">
                     {new Date(produtor.created_at).toLocaleDateString('pt-BR')}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Flex gap={2} justify="center">
+                      <Button
+                        size="sm"
+                        colorScheme="blue"
+                        variant="ghost"
+                        onClick={() => handleViewDetails(produtor.id)}
+                        title="Ver detalhes"
+                      >
+                        📄
+                      </Button>
+                    </Flex>
                   </Table.Cell>
                 </Table.Row>
               ))}

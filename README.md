@@ -1,4 +1,28 @@
+````markdown
 # 🌾 Brain Agriculture
+
+## 📋 Funcionalidades Principais
+
+### 🌱 Sistema de Culturas
+- Adição de culturas às propriedades
+- Validação de safras (1900-2030)
+- Interface com cards individuais
+
+### 📊 Dashboard
+- Gráficos de pizza interativos com Chart.js
+- Cards de métricas com cores semânticas
+- Layout responsivo mobile-first
+
+### 🏠 Interface de Propriedades
+- Cards modernos com layout aprimorado
+- Visualização integrada de culturas
+- Informações categorizadas por cores
+- Estados de loading com skeleton loaders
+
+### 🧩 Componentes Reutilizáveis
+- `NumberInputField` para consistência
+- `CulturasList` para exibição padronizada
+- `PieChart` para gráficos uniformes
 
 ## 🚀 Como Executar a Aplicação
 
@@ -21,7 +45,8 @@ npm run db:setup
 **Serviços disponíveis:**
 - 🖥️ **Frontend**: http://localhost:5173
 - 🔗 **API**: http://localhost:3001
-- 🗄️ **PostgreSQL**: localhost:5432
+- 📋 **API Documentation**: http://localhost:3001/api (Swagger UI)
+- 🐘 **PostgreSQL**: localhost:5432
 - 📊 **PgAdmin**: http://localhost:5050
 
 ### Opção 2: Desenvolvimento Local
@@ -144,14 +169,16 @@ npm run dev
 
 ### 3. Gestão de Culturas
 - **Culturas por Propriedade**: Sistema flexível de culturas plantadas
-- **Safras**: Controle por ano de safra
+- **Safras**: Controle por ano de safra (validação 1900-2030)
 - **Área Plantada**: Controle da área destinada a cada cultura
+- **Validação Robusta**: Yup + class-validator para consistência
 
 ### 4. Dashboard e Relatórios
-- **Métricas Gerais**: Total de fazendas e hectares
-- **Análise por Estado**: Distribuição geográfica das propriedades
-- **Análise por Cultura**: Distribuição das culturas plantadas
+- **Métricas Gerais**: Total de fazendas e hectares com cards interativos
+- **Análise por Estado**: Distribuição geográfica com gráficos de pizza
+- **Análise por Cultura**: Distribuição das culturas plantadas com Chart.js
 - **Uso da Terra**: Proporção entre área agrícola e vegetação
+- **Gráficos Interativos**: Tooltips e legendas personalizadas
 
 ## 🏗️ Arquitetura do Monorepo
 
@@ -187,9 +214,18 @@ brain-agriculture/
 ```
 apps/api/src/
 ├── entities/         # Entidades do banco de dados
+│   ├── produtor.entity.ts
+│   ├── propriedade.entity.ts
+│   └── propriedade-cultura.entity.ts
 ├── migrations/       # Migrações do TypeORM
 ├── produtor/         # Módulo de produtores
+│   ├── dto/         # DTOs para validação
+│   ├── produtor.controller.ts
+│   └── produtor.service.ts
 ├── propriedade/      # Módulo de propriedades
+│   ├── dto/         # DTOs incluindo AddCulturas
+│   ├── propriedade.controller.ts
+│   └── propriedade.service.ts
 ├── dashboard/        # Módulo de dashboard e estatísticas
 └── seeds/           # Dados iniciais (se necessário)
 ```
@@ -205,17 +241,26 @@ apps/api/src/
 ### Endpoints Principais
 
 ```
+# Produtores
 POST   /api/produtores              # Criar produtor
 GET    /api/produtores              # Listar produtores
 GET    /api/produtores/:id          # Buscar produtor
 GET    /api/produtores/:id/propriedades  # Propriedades do produtor
 
+# Propriedades
 POST   /api/propriedades            # Criar propriedade
-POST   /api/propriedades/:id/culturas   # Adicionar culturas
-GET    /api/propriedades/:id/culturas   # Listar culturas
 
+# Culturas
+POST   /api/propriedades/:id/culturas   # Adicionar culturas à propriedade
+GET    /api/propriedades/:id/culturas   # Listar culturas da propriedade
+
+# Dashboard
 GET    /api/dashboard/stats         # Estatísticas para dashboard
 ```
+
+### 📋 Documentação da API
+
+A documentação completa da API está disponível através do Swagger UI, acessível em `/api`. Todos os endpoints possuem documentação detalhada com exemplos de requisições e respostas.
 
 ## 🎨 Frontend (UI)
 
@@ -238,10 +283,16 @@ apps/ui/src/
 ├── components/       # Componentes reutilizáveis
 │   ├── SummaryCard/  # Card de métricas
 │   ├── PieChart/     # Gráficos de pizza
-│   └── Layout/       # Layout principal
+│   ├── Layout/       # Layout principal
+│   ├── AddCulturaForm/ # Formulário de culturas
+│   ├── CulturasList/   # Lista de culturas
+│   ├── NumberInputField/ # Input numérico reutilizável
+│   ├── CreateProdutorForm/
+│   ├── CreatePropriedadeForm/
+│   └── DialogWrapper/
 ├── views/           # Páginas/telas
-│   ├── Dashboard.tsx # Dashboard principal
-│   ├── ProdutorDetails.tsx
+│   ├── Dashboard.tsx # Dashboard com gráficos
+│   ├── ProdutorDetails.tsx # Interface de detalhes
 │   └── ...
 ├── store/           # Redux store
 │   └── api/         # RTK Query APIs
@@ -260,12 +311,32 @@ apps/ui/src/
 ### Funcionalidades da Interface
 
 - **Dashboard Interativo**: 
-  - Cards de métricas principais
-  - Gráficos de pizza para análises
-  - Dados em tempo real
-- **Gestão de Produtores**: Formulários de cadastro e edição
-- **Gestão de Propriedades**: Interface para propriedades e culturas
-- **Navegação Intuitiva**: Menu lateral e breadcrumbs
+  - Cards de métricas com cores semânticas
+  - Gráficos de pizza responsivos com Chart.js
+  - Tooltips e legendas personalizadas
+  - Dados em tempo real com RTK Query
+  
+- **Gestão de Produtores**: 
+  - Formulários de cadastro com validação robusta
+  - Lista responsiva com detalhes expandidos
+  
+- **Gestão de Propriedades**:
+  - Cards modernos com layout aprimorado
+  - Informações de área com cores categorizadas
+  - Integração visual com culturas plantadas
+  - Estados de loading com skeleton loaders
+  
+- **Gestão de Culturas**:
+  - Formulário com validação em tempo real
+  - Interface integrada nos detalhes da propriedade
+  - Cards individuais para cada cultura plantada
+  
+- **Componentes Reutilizáveis**:
+  - NumberInputField para inputs numéricos consistentes
+  - CulturasList para exibição de culturas
+  - PieChart para gráficos padronizados
+  - DialogWrapper para modais consistentes
+  
 
 ## 🐳 Docker e Infraestrutura
 
@@ -292,6 +363,8 @@ PORT=3001
 
 ## 🧪 Testes
 
+### Comandos de Teste
+
 ```bash
 # Executar todos os testes
 npm run test
@@ -299,6 +372,9 @@ npm run test
 # Testes específicos por workspace
 npm run test --workspace=apps/api
 npm run test --workspace=apps/ui
+
+# Modo watch para desenvolvimento
+npm run test:watch --workspace=apps/ui
 
 # Coverage
 npm run test:cov --workspace=apps/api
@@ -316,6 +392,9 @@ npm run test:coverage --workspace=apps/ui
 ### Frontend
 - `react` - Biblioteca principal
 - `@chakra-ui/react` - Componentes UI
-- `@reduxjs/toolkit` - Gerenciamento de estado
-- `react-hook-form` - Formulários
-- `chart.js` - Gráficos interativos
+- `@reduxjs/toolkit` - Gerenciamento de estado  
+- `react-hook-form` - Formulários com validação
+- `yup` - Schema de validação
+- `chart.js` + `react-chartjs-2` - Gráficos interativos
+- `react-router-dom` - Roteamento SPA
+

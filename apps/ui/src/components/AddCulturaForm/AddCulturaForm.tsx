@@ -119,7 +119,7 @@ export const AddCulturaForm: React.FC<AddCulturaFormProps> = ({
 
           <Button
             type="submit"
-            colorScheme="green"
+            background='teal.600'
             size="lg"
             width="full"
             loading={isLoading}

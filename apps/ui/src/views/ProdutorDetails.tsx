@@ -117,7 +117,7 @@ export const ProdutorDetailsView: React.FC = () => {
               Propriedades
             </Heading>
             <Button
-              colorScheme="green"
+              background='teal.600'
               size="sm"
               onClick={() => {setIsPropriedadeModalOpen(true);}}
             >
@@ -153,7 +153,7 @@ export const ProdutorDetailsView: React.FC = () => {
                         </Text>
                       </Box>
                       <Button
-                        colorScheme="green"
+                        background='yellow.600'
                         size="sm"
                         onClick={() => {
                           setPropriedadeSelected(propriedade.id);
