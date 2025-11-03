@@ -1,5 +1,9 @@
 # 🌾 Brain Agriculture
 
+![Detalhes de um produtor](./assets/detalhes-produtor.png)
+![Dashboard](./assets/dashboard.png)
+![Cadastro de propriedades](./assets/cadastro-propriedade.png)
+
 ## 🚀 Como Executar a Aplicação
 
 ### Opção 1: Usando Docker (Recomendado)
@@ -13,17 +17,22 @@ cd brain-agriculture
 
 # 2. Suba todos os serviços
 npm run docker:up
-
-# 3. Execute as migrações do banco
-npm run db:setup
 ```
+
+**⚡ Configuração Automática:**
+- 🗄️ **Database**: PostgreSQL configurado automaticamente
+- 📋 **Tabelas**: Criadas via TypeORM synchronize
+- 🌱 **Seeds**: Dados iniciais inseridos automaticamente
+- ❌ **Migrações**: Não necessárias (TypeORM cuida automaticamente)
 
 **Serviços disponíveis:**
 - 🖥️ **Frontend**: http://localhost:5173
 - 🔗 **API**: http://localhost:3001
-- 📋 **API Documentation**: http://localhost:3001/api (Swagger UI)
-- 🐘 **PostgreSQL**: localhost:5432
+- 📋 **API Documentation**: http://localhost:3001/api/docs (Swagger UI)
+- �️ **PostgreSQL**: localhost:5432
 - 📊 **PgAdmin**: http://localhost:5050
+
+> **💡 Dica**: Com Docker, tudo é configurado automaticamente! Não é necessário executar migrações ou seeds manualmente.
 
 ### Opção 2: Desenvolvimento Local
 
@@ -61,8 +70,11 @@ npm run test           # Executar todos os testes
 npm run lint          # Verificar código
 npm run lint:fix      # Corrigir problemas de lint
 npm run docker:logs   # Ver logs dos containers
-npm run db:reset      # Resetar banco de dados
+npm run db:setup      # Executar migrações (apenas desenvolvimento local)
+npm run db:reset      # Resetar banco de dados (apenas desenvolvimento local)
 ```
+
+> **📝 Nota**: Os scripts `db:setup` e `db:reset` são necessários apenas no **desenvolvimento local**. Com Docker, o banco é configurado automaticamente.
 
 ### 🔄 Sobre o Concurrently
 
@@ -356,6 +368,12 @@ npm run test:watch --workspace=apps/ui
 npm run test:cov --workspace=apps/api
 npm run test:coverage --workspace=apps/ui
 ```
+
+### Cobertura Atual
+- **Backend**: 103+ testes com cobertura completa dos services
+- **Frontend**: 74+ testes com foco em componentes críticos
+
+> **📝 Nota sobre Banco de Dados**: Os testes do backend utilizam banco em memória (SQLite), enquanto o Docker usa PostgreSQL com configuração automática via TypeORM synchronize.
 
 ## 📦 Dependências Principais
 
